@@ -13,12 +13,21 @@ object Main {
     */
   def main(args: Array[String]): Unit = {
 
-    val winningProbability = if (args.length !=0) args(0).toDouble else 0.5
-    val final_score = play(serve_bernoulli, winningProbability, List((0, 0)))
+    try {
+      val winningProbability = if (args.length !=0 && (args(0).toDouble >=0 && args(0).toDouble <=1)) args(0).toDouble else -1
+      if (winningProbability == -1) throw new Exception()
 
-    final_score.foreach(x => println(x._1, x._2))
-    println(" ===== Audience Score Boaord ====")
-    score_display(final_score).foreach(x => println(x._1,x._2))
+      val final_score = play(serve_bernoulli, winningProbability, List((0, 0)))
+
+      final_score.foreach(x => println(x._1, x._2))
+      println(" ===== Audience Score Boaord ====")
+      score_display(final_score).foreach(x => println(x._1,x._2))
+
+    }catch{
+      case e:Exception => println("Error:The value of winning probability must be between 0 and 1")
+    }
+
+
   }
 
   /**
